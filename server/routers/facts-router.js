@@ -5,15 +5,15 @@ const router = require('express').Router();
 
 module.exports = function ({ app, controllers }) {
     const facts = controllers.facts;
-
+    let img = '';
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
 
             cb(null, path.join(__dirname, '../../public/images/fact-images/'));
         },
         filename: function (req, file, cb) {
-            
-            cb(null, Date.now() + file.originalname);
+            img = Date.now() + file.originalname;
+            cb(null, img);
         }
     });
 
@@ -22,7 +22,9 @@ module.exports = function ({ app, controllers }) {
     });
 
     router
-        .post('/upload', upload.any(), facts.uploadFact);
+        .post('/upload', upload.any(), (req, res) => {
+            facts.uploadFact(req, res, img);
+        });
 
     app.use('/facts', router);
 };
