@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
 
+
 module.exports = (config, app) => {
     // server cliend folder bower etc..
     app.use(express.static(path.join(config.rootPath, 'client')));
@@ -31,4 +32,6 @@ module.exports = (config, app) => {
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+
+    
 };

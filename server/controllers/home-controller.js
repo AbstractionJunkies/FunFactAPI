@@ -3,7 +3,7 @@
 module.exports = function () {
     return {
         getHome(req, res) {
-            res.json({ data: "data" });
+            res.json({ data: 'data' });
         }
     };
 };

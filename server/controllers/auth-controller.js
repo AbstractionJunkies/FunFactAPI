@@ -69,8 +69,6 @@ module.exports = function ({data, encryption, passport}) {
                         return;
                     }
 
-                    console.log(username, email, password, confirmedPassword, passHash, salt);
-
                     data.createUser(username, passHash, email, salt)
                         .then(() => {
                             res.status(201).json({
