@@ -7,10 +7,15 @@ module.exports = function ({data}) {
             let uploader = req.body.username;
             let title = req.body.title;
             let category = req.body.category;
-            
+
             data.createFact({ title, uploader, img, category });
 
             res.json({ isUploaded: true });
+        },
+        getAllFacts(req, res) {
+            data.getAllFacts().then(result => {
+                res.status(200).json(result);
+            });
         }
     };
 };

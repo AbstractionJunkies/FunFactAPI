@@ -21,7 +21,8 @@ const factSchema = new mongoose.Schema({
         type: Array
     },
     rating: {
-        type: Number
+        type: Number,
+        default: 0
     },
     category: {
         type: String,
