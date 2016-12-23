@@ -5,7 +5,7 @@ module.exports = (models) => {
     const { User } = models;
 
     return {
-        getById(userId) {
+        getUserById(userId) {
             return new Promise((resolve, reject) => {
                 User.findOne({ _id: userId }, (err, user) => {
                     if (err) {

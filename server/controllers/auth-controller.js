@@ -1,9 +1,9 @@
 'use strict';
+const jwt = require('jsonwebtoken');
 
 module.exports = function ({data, encryption, passport}) {
     return {
         login(req, res, next) {
-
             passport.authenticate('local', (err, user, info) => {
                 if (err) {
                     return next(err);
@@ -19,9 +19,13 @@ module.exports = function ({data, encryption, passport}) {
                         return next(err);
                     }
 
+                    let token = jwt.sign(user, 'magicstring', {
+                        expiresIn: 7200 // 2 hours in seconds
+                    });
                     return res.status(200).json({
                         success: true,
-                        message: `User ${user.username} logged in succesfully`
+                        message: `User ${user.username} logged in succesfully`,
+                        token: 'JWT ' + token
                     });
                 });
             })(req, res, next);
