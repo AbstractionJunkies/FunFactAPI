@@ -28,6 +28,11 @@ module.exports = function ({data, encryption, passport}) {
 
         },
         register(req, res) {
+            if (req.body === null || typeof (req.body) === 'undefined') {
+                res.status(401).json({ success: false, message: 'request body is empty' });
+                return;
+            }
+
             let username = req.body.username;
             let password = req.body.password.toString();
             let confirmedPassword = req.body.confirmedPassword.toString();
@@ -79,6 +84,7 @@ module.exports = function ({data, encryption, passport}) {
                 });
         },
         logout(req, res) {
+
         }
     };
 };
