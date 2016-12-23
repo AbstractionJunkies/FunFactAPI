@@ -18,7 +18,7 @@ const factSchema = new mongoose.Schema({
         required: true
     },
     comments: {
-        type: Array
+        type: [{}]
     },
     rating: {
         type: Number,
