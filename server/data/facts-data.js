@@ -27,7 +27,7 @@ module.exports = (models) => {
                 });
             });
         },
-        getFactByUsername(username) {
+        getFactsByUsername(username) {
             return new Promise((resolve, reject) => {
                 Fact.find({ uploader: username }, (err, fact) => {
                     if (err) {
@@ -49,7 +49,21 @@ module.exports = (models) => {
                 });
             });
         },
-        createFact({title, uploader, img, category}) {
+        addComment(factId,comment){
+            this.getFactById(factId)
+                .then(fact => {
+                    fact.comments.push(comment);
+                    fact.save();
+                });
+        },
+        getFactComments(factId) {
+            return new Promise((resolve, reject) => {
+                this.getFactById(factId).then(
+                    result => resolve(result.comments)
+                );
+            });
+        },
+        createFact({ title, uploader, img, category }) {
 
             let fact = new Fact({
                 title,

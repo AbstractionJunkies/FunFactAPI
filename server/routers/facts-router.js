@@ -25,6 +25,8 @@ module.exports = function ({ app, controllers }) {
         .post('/upload', upload.any(), (req, res) => {
             facts.uploadFact(req, res, img);
         })
+        .post('/fact/:id/comments', facts.addComment)
+        .get('/fact/:id/comments', facts.getFactComments)
         .get('/fact/:id', facts.getFactById)
         .get('/all', facts.getAllFacts);
 

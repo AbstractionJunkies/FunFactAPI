@@ -19,11 +19,22 @@ module.exports = function ({data}) {
         },
         getFactById(req, res) {
             let id = req.params.id;
-            console.log(id);
-            
+
             data.getFactById(id).then(result => {
                 res.status(200).json(result);
             });
+        },
+        getFactComments(req, res) {
+            let id = req.params.id;
+
+            data.getFactComments(id)
+                .then(result => res.status(200).json(result));
+        },
+        addComment(req, res) {
+            let id = req.params.id;
+            let comment = req.body.comment;
+            data.addComment(id, comment);
+            res.json(comment);
         }
     };
 };
