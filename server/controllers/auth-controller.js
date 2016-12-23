@@ -88,7 +88,32 @@ module.exports = function ({data, encryption, passport}) {
                 });
         },
         logout(req, res) {
+            req.logout();
+            res.status(202).json({
+                succes: true,
+                message: `User ${req.body.username} is logged out succesfully`
+            });
+        },
+        getLoggedUser(req, res) {
+            const token = req.headers.authorization;
+            if (token) {
+                // need to remove 'JWT ' in order to decode it ... (i know it sucks!)
+                let decoded = jwt.decode(token.split(' ')[1], 'magicstring');
+                console.log(decoded);
 
+                const userInfo = decoded._doc;
+                let user = {
+                    username: userInfo.username
+                    // add more info if you need it
+                };
+
+                res.status(200).json(user);
+            } else {
+                res.status(401).json({
+                    success: false,
+                    message: 'Please provide token'
+                });
+            }
         }
     };
 };

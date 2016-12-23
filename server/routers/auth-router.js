@@ -10,7 +10,8 @@ module.exports = function ({  app, controllers }) {
     router
         .post('/login', authController.login)
         .post('/register', authController.register)
-        .post('/logout', authController.logout);
+        .post('/logout', authController.logout)
+        .get('/getLoggedUser', authController.getLoggedUser);
 
     app.use('/api/auth', router);
 };
