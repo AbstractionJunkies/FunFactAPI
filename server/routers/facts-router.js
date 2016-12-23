@@ -25,6 +25,7 @@ module.exports = function ({ app, controllers }) {
         .post('/upload', upload.any(), (req, res) => {
             facts.uploadFact(req, res, img);
         })
+        .get('/fact/:id', facts.getFactById)
         .get('/all', facts.getAllFacts);
 
     app.use('/facts', router);

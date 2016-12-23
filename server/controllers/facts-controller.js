@@ -16,6 +16,14 @@ module.exports = function ({data}) {
             data.getAllFacts().then(result => {
                 res.status(200).json(result);
             });
+        },
+        getFactById(req, res) {
+            let id = req.params.id;
+            console.log(id);
+            
+            data.getFactById(id).then(result => {
+                res.status(200).json(result);
+            });
         }
     };
 };

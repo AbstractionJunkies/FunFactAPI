@@ -11,7 +11,7 @@ module.exports = (models) => {
                     if (err) {
                         return reject(err);
                     }
-                    
+
                     return resolve(data);
                 });
             });
@@ -54,10 +54,10 @@ module.exports = (models) => {
             let fact = new Fact({
                 title,
                 uploader,
-                img,
+                img: 'http://localhost:1337/static/images/fact-images/' + img,
                 category
             });
-            
+
             return new Promise((resolve, reject) => {
                 fact.save((err) => {
                     if (err) {
