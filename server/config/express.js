@@ -8,9 +8,8 @@ const path = require('path');
 
 module.exports = (config, app) => {
     // server cliend folder bower etc..
-    app.use(express.static(path.join(config.rootPath, 'client')));
+    app.use('/static', express.static(config.rootPath + '/public'));
     //needed to server index.html for angular
-    app.use(express.static(path.join(config.rootPath, 'client/dist')));
 
     app.use(cookieParser());
     app.use(session({

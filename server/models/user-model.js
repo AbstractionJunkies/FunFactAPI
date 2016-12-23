@@ -1,4 +1,4 @@
-/* globals module, require */
+/* globals module, require */ 
 
 'use strict';
 

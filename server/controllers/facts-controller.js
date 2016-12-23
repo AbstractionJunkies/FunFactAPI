@@ -1,12 +1,21 @@
 'use strict';
 
-module.exports = function () {
+module.exports = function ({data}) {
     return {
-        uploadFact(req, res) {
+        uploadFact(req, res, img) {
             console.log('uploaded! must be saved to the user and facts data!');
-            console.log(req.body);
-            
-            res.json({isUploaded:true});
+            let uploader = req.body.username;
+            let title = req.body.title;
+            let category = req.body.category;
+
+            data.createFact({ title, uploader, img, category });
+
+            res.json({ isUploaded: true });
+        },
+        getAllFacts(req, res) {
+            data.getAllFacts().then(result => {
+                res.status(200).json(result);
+            });
         }
     };
 };
