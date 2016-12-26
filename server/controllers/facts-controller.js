@@ -3,7 +3,6 @@
 module.exports = function ({data, encryption}) {
     return {
         uploadFact(req, res, img) {
-            console.log('uploaded! must be saved to the user and facts data!');
             let uploader = req.body.username;
             let title = req.body.title;
             let category = req.body.category;
@@ -40,7 +39,7 @@ module.exports = function ({data, encryption}) {
         rateFact(req, res) {
             let id = req.params.id;
             let token = req.headers.authorization;
-           
+
             let user = encryption.deciferToken(token);
 
             if (!req.body.vote) {
@@ -79,6 +78,21 @@ module.exports = function ({data, encryption}) {
                             message: 'Vote has been added successfuly'
                         });
                 });
+
+        },
+
+        getUserFavorites(req, res) {
+            let username = req.params.username;
+
+            data.getUserFavorites(username)
+                .then(result => res.status(200).json(result));
+        },
+
+        addFactToFavorites(req, res) {
+            let username = req.params.username;
+            let fact = req.body.fact;
+
+            data.addFactToFavorites(username, fact);
 
         }
     };
