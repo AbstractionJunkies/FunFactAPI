@@ -34,12 +34,24 @@ module.exports = function ({data}) {
             let id = req.params.id;
             let comment = req.body.comment;
 
-
             data.addComment(id, comment);
             res.json(comment);
         },
         rateFact(req, res) {
             res.send('works');
+        },
+        addFactToFavorites(req, res) {
+            let user = req.params.username;
+            let fact = req.body.fact;
+            console.log(fact);
+            
+            data.addFactToFavorites(user, fact);
+        },
+        getUserFavorites(req, res) {
+            let user = req.params.username;
+
+            data.getUserFavorites(user)
+                .then(result => res.status(200).json(result));
         }
     };
 };

@@ -57,6 +57,21 @@ module.exports = (models) => {
                     return resolve(user);
                 });
             });
+        },
+        addFactToFavorites(username, fact) {
+            this.getByUsername(username)
+                .then(user => {
+                    user.favoriteFacts.push(fact);
+                    user.save();
+                });
+        },
+        getUserFavorites(username) {
+           return new Promise((resolve, reject) => {
+                this.getByUsername(username)
+                    .then(result => {
+                        resolve(result.favoriteFacts);
+                    });
+            });
         }
     };
 };

@@ -1,4 +1,4 @@
-/* globals module, require */ 
+/* globals module, require */
 
 'use strict';
 
@@ -50,7 +50,8 @@ const userSchema = new mongoose.Schema({
         default: '58446e0a2374e32570d0fb06'
     },
     roles: [String],
-    isDeleted: Boolean
+    isDeleted: Boolean,
+    favoriteFacts: [{}]
 });
 
 userSchema.virtual('fullname').get(function () {
