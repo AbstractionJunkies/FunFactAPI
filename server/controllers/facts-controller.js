@@ -40,7 +40,7 @@ module.exports = function ({data, encryption}) {
         rateFact(req, res) {
             let id = req.params.id;
             let token = req.headers.authorization;
-           
+
             let user = encryption.deciferToken(token);
 
             if (!req.body.vote) {
@@ -76,7 +76,8 @@ module.exports = function ({data, encryption}) {
                     res.status(201)
                         .json({
                             succes: true,
-                            message: 'Vote has been added successfuly'
+                            message: 'Vote has been added successfuly',
+                            rate: fact.rating
                         });
                 });
 

@@ -1,5 +1,15 @@
 /* globals module, require */
 'use strict';
+function calculateRate(usersRated) {
+
+    let allrate = 0;
+    for (let u of usersRated) {
+        allrate += +u;
+    }
+
+    return allrate;
+}
+
 
 module.exports = (models) => {
     const { Fact } = models;
@@ -98,29 +108,27 @@ module.exports = (models) => {
                         }
                     }
 
-                    console.log(indexOfUserLikedFact);
                     if (indexOfUserLikedFact < 0) {
-                        console.log('new like ', rate);
                         foundFact.usersRated.push({
                             username: username,
                             vote: rate
                         });
 
-                        foundFact.rating = (foundFact.rating + rate) / foundFact.usersRated.length;
-
                     } else {
-                        let oldVote = +foundFact.usersRated[indexOfUserLikedFact].vote;
-                        console.log('alreadyLiked');
-                        console.log('old value ' + oldVote);
                         foundFact.usersRated[indexOfUserLikedFact] = {
                             username: username,
                             vote: rate
                         };
 
-                        foundFact.rating = (foundFact.rating + rate - oldVote) / foundFact.usersRated.length;
-
+                        // foundFact.rating = (foundFact.usersRated.reduce((a, b) => a.vote + b.vote, 0) - oldVote) / foundFact.usersRated.length;//(foundFact.rating + rate) / foundFact.usersRated.length;
                     }
 
+                    let allrate = 0;
+                    for (let rate of foundFact.usersRated) {
+                        allrate += rate.vote;
+                    }
+
+                    foundFact.rating = allrate / foundFact.usersRated.length;
                     foundFact.save();
                     return foundFact;
                 });
