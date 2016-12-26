@@ -24,9 +24,10 @@ const factSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    usersRated:{
-        type:[{
-            
+    usersRated: {
+        type: [{
+            username: String,
+            vote: Number
         }]
     },
     category: {

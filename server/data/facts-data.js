@@ -49,7 +49,7 @@ module.exports = (models) => {
                 });
             });
         },
-        addComment(factId,comment){
+        addComment(factId, comment) {
             this.getFactById(factId)
                 .then(fact => {
                     fact.comments.push(comment);
@@ -65,11 +65,13 @@ module.exports = (models) => {
         },
         createFact({ title, uploader, img, category }) {
 
+            let usersRated = [];
             let fact = new Fact({
                 title,
                 uploader,
                 img: 'http://localhost:1337/static/images/fact-images/' + img,
-                category
+                category,
+                usersRated
             });
 
             return new Promise((resolve, reject) => {
@@ -81,6 +83,47 @@ module.exports = (models) => {
                     return resolve(fact);
                 });
             });
+        },
+        rateFact(factId, username, rate) {
+            return this.getFactById(factId)
+                .then(foundFact => {
+                    rate = +rate;
+
+                    let indexOfUserLikedFact = -1;
+                    for (let i = 0, len = foundFact.usersRated.length; i < len; i += 1) {
+                        let userRated = foundFact.usersRated[i];
+                        if (userRated.username === username) {
+                            indexOfUserLikedFact = i;
+                            break;
+                        }
+                    }
+
+                    console.log(indexOfUserLikedFact);
+                    if (indexOfUserLikedFact < 0) {
+                        console.log('new like ', rate);
+                        foundFact.usersRated.push({
+                            username: username,
+                            vote: rate
+                        });
+
+                        foundFact.rating = (foundFact.rating + rate) / foundFact.usersRated.length;
+
+                    } else {
+                        let oldVote = +foundFact.usersRated[indexOfUserLikedFact].vote;
+                        console.log('alreadyLiked');
+                        console.log('old value ' + oldVote);
+                        foundFact.usersRated[indexOfUserLikedFact] = {
+                            username: username,
+                            vote: rate
+                        };
+
+                        foundFact.rating = (foundFact.rating + rate - oldVote) / foundFact.usersRated.length;
+
+                    }
+
+                    foundFact.save();
+                    return foundFact;
+                });
         }
     };
 };
