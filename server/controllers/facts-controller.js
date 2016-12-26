@@ -33,7 +33,7 @@ module.exports = function ({data}) {
         addComment(req, res) {
             let id = req.params.id;
             let comment = req.body.comment;
-            console.log(comment);
+
 
             data.addComment(id, comment);
             res.json(comment);
