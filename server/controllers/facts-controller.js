@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function ({data}) {
+module.exports = function ({data, encryption}) {
     return {
         uploadFact(req, res, img) {
             console.log('uploaded! must be saved to the user and facts data!');
@@ -19,7 +19,6 @@ module.exports = function ({data}) {
         },
         getFactById(req, res) {
             let id = req.params.id;
-
             data.getFactById(id).then(result => {
                 res.status(200).json(result);
             });
@@ -39,7 +38,48 @@ module.exports = function ({data}) {
             res.json(comment);
         },
         rateFact(req, res) {
-            res.send('works');
+            let id = req.params.id;
+            let token = req.headers.authorization;
+           
+            let user = encryption.deciferToken(token);
+
+            if (!req.body.vote) {
+                res.status(400).json({
+                    succes: false,
+                    message: 'You must provide rating value!'
+                });
+                return;
+            }
+
+            let vote = +req.body.vote;
+
+            if (!user) {
+                res.send(401).json({
+                    success: false,
+                    message: 'You must be loged in order to vote'
+                });
+
+                return;
+            }
+
+            if (vote < 0 || vote > 5) {
+                res.send(400).json({
+                    success: false,
+                    message: 'Vote value must be bewteen 1 and 5'
+                });
+
+                return;
+            }
+
+            data.rateFact(id, user.username, vote)
+                .then(fact => {
+                    res.status(201)
+                        .json({
+                            succes: true,
+                            message: 'Vote has been added successfuly'
+                        });
+                });
+
         }
     };
 };
