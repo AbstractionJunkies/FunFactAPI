@@ -18,7 +18,7 @@ const encryption = require('./utilities/encryption');
 
 require('./config/express')(config, app);
 const controllers = require('./controllers')({ app, encryption, data, passport });
-require('./routers')({ app, controllers });
+require('./routers')({ app, controllers, passport });
 
 
 

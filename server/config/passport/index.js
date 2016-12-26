@@ -20,7 +20,7 @@ passport.deserializeUser((userId, done) => {
         .catch(error => done(error, false));
 });
 
-require('./local-strategy')(passport, data);
+// require('./local-strategy')(passport, data);
 require('./jwt-strategy')(passport, data, config[stage]);
 
 module.exports = (app) => {

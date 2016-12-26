@@ -34,9 +34,12 @@ module.exports = function ({data}) {
             let id = req.params.id;
             let comment = req.body.comment;
             console.log(comment);
-            
+
             data.addComment(id, comment);
             res.json(comment);
+        },
+        rateFact(req, res) {
+            res.send('works');
         }
     };
 };

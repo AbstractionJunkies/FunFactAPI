@@ -2,8 +2,9 @@
 const multer = require('multer');
 const path = require('path');
 const router = require('express').Router();
+const auth = require('../config/auth');
 
-module.exports = function ({ app, controllers }) {
+module.exports = function ({ app, controllers, passport }) {
     const facts = controllers.facts;
     let img = '';
     const storage = multer.diskStorage({
@@ -28,6 +29,7 @@ module.exports = function ({ app, controllers }) {
         .post('/fact/:id/comments', facts.addComment)
         .get('/fact/:id/comments', facts.getFactComments)
         .get('/fact/:id', facts.getFactById)
+        .put('/fact/:id', passport.authenticate('jwt', { session: false }), facts.rateFact)
         .get('/all', facts.getAllFacts);
 
     app.use('/facts', router);
