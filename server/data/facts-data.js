@@ -15,15 +15,15 @@ module.exports = (models) => {
     const { Fact } = models;
 
     return {
-        getAllFacts() {
+        getAllFacts(page) {
+            page = page || 0;
+            const size = 5;
             return new Promise((resolve, reject) => {
-                Fact.find({}, (err, data) => {
-                    if (err) {
-                        return reject(err);
-                    }
+                let query = Fact.find({})
+                    .skip(page * size)
+                    .limit(size);
 
-                    return resolve(data);
-                });
+                resolve(query);
             });
         },
         getFactById(factId) {

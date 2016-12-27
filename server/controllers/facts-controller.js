@@ -12,7 +12,9 @@ module.exports = function ({data, encryption}) {
             res.json({ isUploaded: true });
         },
         getAllFacts(req, res) {
-            data.getAllFacts().then(result => {
+           console.log(req.query.page);
+            let page = req.query.page;
+            data.getAllFacts(page).then(result => {
                 res.status(200).json(result);
             });
         },
