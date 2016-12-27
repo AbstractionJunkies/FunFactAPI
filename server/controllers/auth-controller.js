@@ -31,10 +31,11 @@ module.exports = function ({data, encryption, passport}) {
             // })(req, res, next);
             let username = req.body.username;
             let password = req.body.password;
-
+            console.log(username, password);
             data.getByUsername(username)
                 .then(user => {
-                    if (!user.authenticate(password)) {
+                    console.log(user);
+                    if (user === null || !user.authenticate(password)) {
                         res.status(401).json({
                             succes: 'false',
                             message: 'wrong username or password'
