@@ -45,6 +45,7 @@ module.exports = function ({ app, controllers, passport }) {
         .get('/fact/:id/comments', facts.getFactComments)
         .get('/fact/:id', facts.getFactById)
         .put('/fact/:id', passport.authenticate('jwt', { session: false }), facts.rateFact)
+        .put('/fact/vote/:id', facts.voteForKnowledge)//TODO:Change  rate to vote
         .get('/all', facts.getAllFacts)
         .get('/user/:username/favorites', facts.getUserFavorites)
         .post('/user/:username/favorites', facts.addFactToFavorites)

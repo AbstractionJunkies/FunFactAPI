@@ -12,7 +12,7 @@ function calculateRate(usersRated) {
 
 
 module.exports = (models) => {
-    const { Fact } = models;
+    const {Fact} = models;
 
     return {
         getAllFacts(page) {
@@ -26,9 +26,16 @@ module.exports = (models) => {
                 resolve(query);
             });
         },
+        getAllFactsWithoutPaging(){
+            return new Promise((resolve, reject) => {
+                let query = Fact.find({})
+
+                resolve(query);
+            });
+        },
         getFactById(factId) {
             return new Promise((resolve, reject) => {
-                Fact.findOne({ _id: factId }, (err, fact) => {
+                Fact.findOne({_id: factId}, (err, fact) => {
                     if (err) {
                         return reject(err);
                     }
@@ -39,7 +46,7 @@ module.exports = (models) => {
         },
         getFactsByUsername(username) {
             return new Promise((resolve, reject) => {
-                Fact.find({ uploader: username }, (err, fact) => {
+                Fact.find({uploader: username}, (err, fact) => {
                     if (err) {
                         return reject(err);
                     }
@@ -50,7 +57,7 @@ module.exports = (models) => {
         },
         getFactByCategory(category) {
             return new Promise((resolve, reject) => {
-                Fact.find({ category }, (err, fact) => {
+                Fact.find({category}, (err, fact) => {
                     if (err) {
                         return reject(err);
                     }
@@ -73,7 +80,7 @@ module.exports = (models) => {
                 );
             });
         },
-        createFact({ title, uploader, img, category }) {
+        createFact({title, uploader, img, category}) {
 
             let usersRated = [];
             let fact = new Fact({
@@ -132,6 +139,29 @@ module.exports = (models) => {
                     foundFact.save();
                     return foundFact;
                 });
+        },
+        voteYes(factId){
+            return this.getFactById(factId)
+                .then(foundFact => {
+                    foundFact.knowledgeCount = {
+                        yes: foundFact.knowledgeCount.yes +1,
+                        no: foundFact.knowledgeCount.no
+                    };
+                    foundFact.save();
+                    return foundFact;
+                })
+        },
+        voteNo(factId){
+            return this.getFactById(factId)
+                .then(foundFact => {
+                    foundFact.knowledgeCount = {
+                        yes: foundFact.knowledgeCount.yes,
+                        no: foundFact.knowledgeCount.no +1
+                    };
+                    foundFact.save();
+                    return foundFact;
+                })
+
         }
     };
 };

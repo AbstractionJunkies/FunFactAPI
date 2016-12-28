@@ -33,6 +33,16 @@ const factSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true
+    },
+    knowledgeCount: {
+        type: {
+            yes : Number,
+            no : Number
+        },
+        default: {
+            yes: 0,
+            no: 0
+        }
     }
 });
 

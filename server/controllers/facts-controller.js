@@ -7,9 +7,9 @@ module.exports = function ({data, encryption}) {
             let title = req.body.title;
             let category = req.body.category;
 
-            data.createFact({ title, uploader, img, category });
+            data.createFact({title, uploader, img, category});
 
-            res.json({ isUploaded: true });
+            res.json({isUploaded: true});
         },
         getAllFacts(req, res) {
             console.log(req.query.page);
@@ -83,6 +83,19 @@ module.exports = function ({data, encryption}) {
                             rate: fact.rating
                         });
                 });
+
+        },
+        voteForKnowledge(req, res){
+            let vote = req.body.vote;
+            let id = req.params.id;
+            if (vote === 'yes') {
+                data.voteYes(id)
+                    .then(result => {
+                        res.status(200).json(result);
+                    })
+            } else {
+                data.voteNo(id);
+            }
 
         },
         getUserFavorites(req, res) {
