@@ -39,10 +39,12 @@ module.exports = function ({data, encryption}) {
             res.json(comment);
         },
         rateFact(req, res) {
+            console.log(req.user);
             let id = req.params.id;
-            let token = req.headers.authorization;
-
-            let user = encryption.deciferToken(token);
+            let user = req.user;
+            // let token = req.headers.authorization;
+            // console.log(user);
+            // let user = encryption.deciferToken(token);
 
             if (!req.body.vote) {
                 res.status(400).json({
@@ -54,14 +56,14 @@ module.exports = function ({data, encryption}) {
 
             let vote = +req.body.vote;
 
-            if (!user) {
-                res.send(401).json({
-                    success: false,
-                    message: 'You must be loged in order to vote'
-                });
+            // if (!user) {
+            //     res.send(401).json({
+            //         success: false,
+            //         message: 'You must be loged in order to vote'
+            //     });
 
-                return;
-            }
+            //     return;
+            // }
 
             if (vote < 0 || vote > 5) {
                 res.send(400).json({
@@ -103,9 +105,9 @@ module.exports = function ({data, encryption}) {
         },
         getAvatar(req, res) {
             let username = req.params.username;
-            
+
             data.getAvatar(username)
-                .then(result=>res.status(200).json(result));
+                .then(result => res.status(200).json(result));
         }
     };
 };

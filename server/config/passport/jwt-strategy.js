@@ -10,25 +10,26 @@ module.exports = (passport, data, config) => {
     passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
 
         // If you tell me why this doesn't work..
-        // data.getUserById(jwt_payload.id)
-        //     .then(user => {
-        //         console.log(user);
-        //         if (user) {
-        //             done(null, user);
-        //         } else {
-        //             done(null, false);
-        //         }
-        //     });
-        User.findOne({ id: jwt_payload.id }, function (err, user) {
-            if (err) {
-                return done(err, false);
-            }
-
-            if (user) {
-                done(null, user);
-            } else {
-                done(null, false);
-            }
-        });
+        data.getUserById(jwt_payload._doc._id)
+            .then(user => {
+                console.log(user);
+                if (user) {
+                    done(null, user);
+                } else {
+                    done(null, false);
+                }
+            });
+        // console.log('this should be the id ' + JSON.stringify(jwt_payload));
+        // User.findOne({ _id: jwt_payload._doc._id }, function (err, user) {
+        //     if (err) {
+        //         return done(err, false);
+        //     }
+        //     console.log('xxx ' + user);
+        //     if (user) {
+        //         done(null, user);
+        //     } else {
+        //         done(null, false);
+        //     }
+        // });
     }));
 };
