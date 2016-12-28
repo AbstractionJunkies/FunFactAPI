@@ -4,7 +4,7 @@ const router = require('express').Router();
 const passport = require('passport');
 const auth = require('../config/auth');
 
-module.exports = function ({ app, controllers }) {
+module.exports = function ({app, controllers}) {
     const home = controllers.home;
 
     router
@@ -13,5 +13,6 @@ module.exports = function ({ app, controllers }) {
             console.log(req.isAuthenticated());
             res.send("here" + req.user._id);
         });
+
     app.use(router);
 };
