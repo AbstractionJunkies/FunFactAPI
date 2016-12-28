@@ -2,17 +2,40 @@
 
 module.exports = function ({data, encryption}) {
     return {
+        _validateToken(req, res) {
+            let token = req.headers.authorization;
+            if (!token) {
+                return res.statu(401).json({
+                    success: false,
+                    message: 'You must be loged in order to vote'
+                });
+            }
+            token = token.substring(1, token.length - 1);
+            console.log(token);
+            let user = encryption.deciferToken(token);
+            console.log(user);
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'You must be loged in order to vote'
+                });
+            }
+        },
         uploadFact(req, res, img) {
+            this._validateToken(req, res);
+
             let uploader = req.body.username;
             let title = req.body.title;
             let category = req.body.category;
 
-            data.createFact({title, uploader, img, category});
 
-            res.json({isUploaded: true});
+            data.createFact({title, uploader, img, category})
+                .then(fact => {
+                    res.json({isUploaded: true});
+                });
+
         },
         getAllFacts(req, res) {
-            console.log(req.query.page);
             let page = req.query.page;
             data.getAllFacts(page).then(result => {
                 res.status(200).json(result);
@@ -42,9 +65,6 @@ module.exports = function ({data, encryption}) {
             console.log(req.user);
             let id = req.params.id;
             let user = req.user;
-            // let token = req.headers.authorization;
-            // console.log(user);
-            // let user = encryption.deciferToken(token);
 
             if (!req.body.vote) {
                 res.status(400).json({
@@ -55,15 +75,6 @@ module.exports = function ({data, encryption}) {
             }
 
             let vote = +req.body.vote;
-
-            // if (!user) {
-            //     res.send(401).json({
-            //         success: false,
-            //         message: 'You must be loged in order to vote'
-            //     });
-
-            //     return;
-            // }
 
             if (vote < 0 || vote > 5) {
                 res.send(400).json({

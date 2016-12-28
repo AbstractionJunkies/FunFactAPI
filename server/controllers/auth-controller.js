@@ -123,7 +123,6 @@ module.exports = function ({data, encryption, passport}) {
                 let user = encryption.deciferToken(token);
 
                 if (user === null) {
-                    console.log('tyk');
                     return res.status(401).json({
                         success: false,
                         message: 'Please provide a valid token'
