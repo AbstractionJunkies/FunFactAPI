@@ -66,10 +66,25 @@ module.exports = (models) => {
                 });
         },
         getUserFavorites(username) {
-           return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 this.getByUsername(username)
                     .then(result => {
                         resolve(result.favoriteFacts);
+                    });
+            });
+        },
+        uploadAvatar(username, img) {
+            this.getByUsername(username)
+                .then(user => {
+                    user.avatar = img;
+                    user.save();
+                });
+        },
+        getAvatar(username) {
+            return new Promise((resolve, reject) => {
+                this.getByUsername(username)
+                    .then(result => {
+                        resolve(result.avatar);
                     });
             });
         }

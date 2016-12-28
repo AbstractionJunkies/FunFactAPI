@@ -12,7 +12,7 @@ module.exports = function ({data, encryption}) {
             res.json({ isUploaded: true });
         },
         getAllFacts(req, res) {
-           console.log(req.query.page);
+            console.log(req.query.page);
             let page = req.query.page;
             data.getAllFacts(page).then(result => {
                 res.status(200).json(result);
@@ -83,20 +83,29 @@ module.exports = function ({data, encryption}) {
                 });
 
         },
-
         getUserFavorites(req, res) {
             let username = req.params.username;
 
             data.getUserFavorites(username)
                 .then(result => res.status(200).json(result));
         },
-
         addFactToFavorites(req, res) {
             let username = req.params.username;
             let fact = req.body.fact;
 
             data.addFactToFavorites(username, fact);
 
+        },
+        uploadAvatar(req, res, img) {
+            let username = req.body.username;
+
+            data.uploadAvatar(username, img);
+        },
+        getAvatar(req, res) {
+            let username = req.params.username;
+            
+            data.getAvatar(username)
+                .then(result=>res.status(200).json(result));
         }
     };
 };
