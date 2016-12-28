@@ -41,14 +41,14 @@ module.exports = function ({ app, controllers, passport }) {
         .post('/upload', uploadFact.any(), (req, res) => {
             facts.uploadFact(req, res, img);
         })
-        .post('/fact/:id/comments', facts.addComment)
-        .get('/fact/:id/comments', facts.getFactComments)
-        .get('/fact/:id', facts.getFactById)
+        .post('/fact/:id/comments', passport.authenticate('jwt', { session: false }), facts.addComment)
+        .get('/fact/:id/comments', passport.authenticate('jwt', { session: false }), facts.getFactComments)
+        .get('/fact/:id', passport.authenticate('jwt', { session: false }), facts.getFactById)
         .put('/fact/:id', passport.authenticate('jwt', { session: false }), facts.rateFact)
         .get('/all', facts.getAllFacts)
-        .get('/user/:username/favorites', facts.getUserFavorites)
-        .post('/user/:username/favorites', facts.addFactToFavorites)
-        .get('/user/:username/avatar', facts.getAvatar)
+        .get('/user/:username/favorites', passport.authenticate('jwt', { session: false }), facts.getUserFavorites)
+        .post('/user/:username/favorites', passport.authenticate('jwt', { session: false }), facts.addFactToFavorites)
+        .get('/user/:username/avatar', passport.authenticate('jwt', { session: false }), facts.getAvatar)
         .post('/user/avatar', uploadAvatar.any(), (req, res) => {
             facts.uploadAvatar(req, res, img);
         });
