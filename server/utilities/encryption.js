@@ -12,11 +12,20 @@ module.exports = {
         let decoded = jwt.decode(token.split(' ')[1], 'magicstring');
         // console.log(decoded);
 
+        let user = null;
+
+        if (decoded === null) {
+            // invalid Token
+            return user;
+        }
+
         const userInfo = decoded._doc;
-        let user = {
+
+
+        user = {
             username: userInfo.username
-            // add more info if you need it
         };
+        // add more info if you need it
 
         return user;
     }

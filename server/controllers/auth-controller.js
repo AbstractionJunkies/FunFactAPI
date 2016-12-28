@@ -121,13 +121,23 @@ module.exports = function ({data, encryption, passport}) {
             const token = req.headers.authorization;
             if (token) {
                 let user = encryption.deciferToken(token);
-                res.status(200).json(user);
-            } else {
-                res.status(401).json({
-                    success: false,
-                    message: 'Please provide token'
-                });
+
+                if (user === null) {
+                    console.log('tyk');
+                    return res.status(401).json({
+                        success: false,
+                        message: 'Please provide a valid token'
+                    });
+                }
+
+                return res.status(200).json(user);
             }
+
+            return res.status(401).json({
+                success: false,
+                message: 'Please provide token'
+            });
+
         }
     };
 };
