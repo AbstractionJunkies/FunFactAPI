@@ -105,7 +105,10 @@ module.exports = function ({data, encryption}) {
                         res.status(200).json(result);
                     })
             } else {
-                data.voteNo(id);
+                data.voteNo(id)
+                    .then(result => {
+                        res.status(200).json(result);
+                    })
             }
 
         },
