@@ -135,7 +135,8 @@ module.exports = function ({data, encryption, passport}) {
 
             let user = {
                 username: req.user.username,
-                avatar: req.user.avatar
+                avatar: req.user.avatar,
+                _id: req.user._id
             };
 
             return res.status(200).json(user);

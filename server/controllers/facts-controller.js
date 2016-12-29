@@ -100,47 +100,14 @@ module.exports = function ({data, encryption}) {
                 data.voteYes(id)
                     .then(result => {
                         res.status(200).json(result);
-                    })
+                    });
             } else {
                 data.voteNo(id)
                     .then(result => {
                         res.status(200).json(result);
-                    })
+                    });
             }
 
-        },
-        getUserFavorites(req, res) {
-            let username = req.params.username;
-
-            data.getUserFavorites(username)
-                .then(result => res.status(200).json(result));
-        },
-        addFactToFavorites(req, res) {
-            let username = req.params.username;
-            let fact = req.body.fact;
-
-            data.addFactToFavorites(username, fact);
-
-        },
-        uploadAvatar(req, res, img) {
-            let username = req.body.username;
-
-            data.uploadAvatar(username, img);
-
-            res.status(200).send(img);
-        },
-        getAvatar(req, res) {
-            let username = req.params.username;
-
-            data.getAvatar(username)
-                .then(result => res.status(200).json(result));
         }
     };
 };
-
-
-
-
-
-
-
