@@ -130,6 +130,7 @@ module.exports = function ({data, encryption, passport}) {
                 return res.status(200).json(user);
             }
 
+           
             return res.status(401).json({
                 success: false,
                 message: 'Please provide token'
