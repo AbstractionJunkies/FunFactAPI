@@ -116,25 +116,36 @@ module.exports = function ({data, encryption, passport}) {
             });
         },
         getLoggedUser(req, res) {
-            const token = req.headers.authorization;
-            if (token) {
-                let user = encryption.deciferToken(token);
+            // const token = req.headers.authorization;
+            // if (token) {
+            //     let user = encryption.deciferToken(token);
 
-                if (user === null) {
-                    return res.status(401).json({
-                        success: false,
-                        message: 'Please provide a valid token'
-                    });
-                }
-
-                return res.status(200).json(user);
+            //     if (user === null) {
+            //         return res.status(401).json({
+            //             success: false,
+            //             message: 'Please provide a valid token'
+            //         });
+            //     }
+            if (!req.user) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Please provide token'
+                });
             }
 
-           
-            return res.status(401).json({
-                success: false,
-                message: 'Please provide token'
-            });
+            let user = {
+                username: req.user.username,
+                avatar: req.user.avatar
+            };
+
+            return res.status(200).json(user);
+            // }
+
+
+            // return res.status(401).json({
+            //     success: false,
+            //     message: 'Please provide token'
+            // });
 
         }
     };

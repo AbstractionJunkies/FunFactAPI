@@ -11,7 +11,7 @@ module.exports = function ({  app, controllers }) {
         .post('/login', authController.login)
         .post('/register', authController.register)
         .post('/logout', authController.logout)
-        .get('/getLoggedUser', authController.getLoggedUser);
+        .get('/getLoggedUser', passport.authenticate('jwt', { session: false }), authController.getLoggedUser);
 
     app.use('/api/auth', router);
 };
