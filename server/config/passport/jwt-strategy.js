@@ -12,7 +12,6 @@ module.exports = (passport, data, config) => {
         // If you tell me why this doesn't work..
         data.getUserById(jwt_payload._doc._id)
             .then(user => {
-                console.log(user);
                 if (user) {
                     done(null, user);
                 } else {

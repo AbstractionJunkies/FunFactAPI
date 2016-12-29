@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: 'http://localhost:1337/static/images/user-аvatar-images/default-avatar.png'
+        default: 'default-avatar.png'
     },
     roles: [String],
     isDeleted: Boolean,

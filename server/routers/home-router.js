@@ -10,7 +10,6 @@ module.exports = function ({app, controllers}) {
     router
         .get('/', home.getHome)
         .get('/test', passport.authenticate('jwt', { session: false }), (req, res) => {
-            console.log(JSON.stringify(req.headers));
             res.send("here" + JSON.stringify(req.headers));
         });
 

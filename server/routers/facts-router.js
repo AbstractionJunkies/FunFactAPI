@@ -13,6 +13,7 @@ module.exports = function ({ app, controllers, passport }) {
             cb(null, path.join(__dirname, '../../public/images/fact-images/'));
         },
         filename: function (req, file, cb) {
+            
             img = Date.now() + file.originalname;
             cb(null, img);
         }
@@ -20,10 +21,11 @@ module.exports = function ({ app, controllers, passport }) {
 
     const storageAvatar = multer.diskStorage({
         destination: function (req, file, cb) {
-
+            
             cb(null, path.join(__dirname, '../../public/images/user-аvatar-images/'));
         },
         filename: function (req, file, cb) {
+            
             img = Date.now() + file.originalname;
             cb(null, img);
         }
@@ -51,6 +53,7 @@ module.exports = function ({ app, controllers, passport }) {
         .post('/user/:username/favorites', passport.authenticate('jwt', { session: false }), facts.addFactToFavorites)
         .get('/user/:username/avatar', passport.authenticate('jwt', { session: false }), facts.getAvatar)
         .post('/user/avatar', uploadAvatar.any(), (req, res) => {
+            
             facts.uploadAvatar(req, res, img);
         });
 

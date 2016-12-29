@@ -11,9 +11,7 @@ module.exports = function ({data, encryption}) {
                 });
             }
             token = token.substring(1, token.length - 1);
-            console.log(token);
             let user = encryption.deciferToken(token);
-            console.log(user);
             if (!user) {
                 return res.status(401).json({
                     success: false,
@@ -29,9 +27,9 @@ module.exports = function ({data, encryption}) {
             let category = req.body.category;
 
 
-            data.createFact({title, uploader, img, category})
+            data.createFact({ title, uploader, img, category })
                 .then(fact => {
-                    res.json({isUploaded: true});
+                    res.json({ isUploaded: true });
                 });
 
         },
@@ -62,7 +60,6 @@ module.exports = function ({data, encryption}) {
             res.json(comment);
         },
         rateFact(req, res) {
-            console.log(req.user);
             let id = req.params.id;
             let user = req.user;
 
@@ -96,7 +93,7 @@ module.exports = function ({data, encryption}) {
                 });
 
         },
-        voteForKnowledge(req, res){
+        voteForKnowledge(req, res) {
             let vote = req.body.vote;
             let id = req.params.id;
             if (vote === 'yes') {
@@ -129,6 +126,8 @@ module.exports = function ({data, encryption}) {
             let username = req.body.username;
 
             data.uploadAvatar(username, img);
+
+            res.status(200).send(img);
         },
         getAvatar(req, res) {
             let username = req.params.username;

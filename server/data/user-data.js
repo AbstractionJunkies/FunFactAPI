@@ -80,10 +80,10 @@ module.exports = (models) => {
                     user.save();
                 });
         },
-        getAvatar(username) {
+        getAvatar(username){
             return new Promise((resolve, reject) => {
                 this.getByUsername(username)
-                    .then(result => {
+                    .then(result=>{
                         resolve(result.avatar);
                     });
             });
