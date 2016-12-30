@@ -36,13 +36,18 @@ const factSchema = new mongoose.Schema({
     },
     knowledgeCount: {
         type: {
-            yes : Number,
-            no : Number
+            yes: Number,
+            no: Number
         },
         default: {
             yes: 0,
             no: 0
         }
+    },
+    isDeleted: {
+        type: Boolean,
+        require: true,
+        default: false
     }
 });
 

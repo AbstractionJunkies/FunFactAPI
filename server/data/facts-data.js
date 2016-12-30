@@ -19,23 +19,23 @@ module.exports = (models) => {
             page = page || 0;
             const size = 5;
             return new Promise((resolve, reject) => {
-                let query = Fact.find({})
+                let query = Fact.find({ isDeleted: false })
                     .skip(page * size)
                     .limit(size);
 
                 resolve(query);
             });
         },
-        getAllFactsWithoutPaging(){
+        getAllFactsWithoutPaging() {
             return new Promise((resolve, reject) => {
-                let query = Fact.find({})
+                let query = Fact.find({ isDeleted: false });
 
                 resolve(query);
             });
         },
         getFactById(factId) {
             return new Promise((resolve, reject) => {
-                Fact.findOne({_id: factId}, (err, fact) => {
+                Fact.findOne({ _id: factId, isDeleted: false }, (err, fact) => {
                     if (err) {
                         return reject(err);
                     }
@@ -44,9 +44,24 @@ module.exports = (models) => {
                 });
             });
         },
+        deleteFactById(factId) {
+            return new Promise((resolve, reject) => {
+                this.getFactById(factId)
+                    .then(fact => {
+                        if (!fact) {
+                            return reject(fact);
+                        }
+
+                        fact.isDeleted = true;
+                        fact.save();
+
+                        return resolve(fact);
+                    });
+            });
+        },
         getFactsByUsername(username) {
             return new Promise((resolve, reject) => {
-                Fact.find({uploader: username}, (err, fact) => {
+                Fact.find({ uploader: username, isDeleted: false }, (err, fact) => {
                     if (err) {
                         return reject(err);
                     }
@@ -57,7 +72,7 @@ module.exports = (models) => {
         },
         getFactByCategory(category) {
             return new Promise((resolve, reject) => {
-                Fact.find({category}, (err, fact) => {
+                Fact.find({ category: category, isDeleted: false }, (err, fact) => {
                     if (err) {
                         return reject(err);
                     }
@@ -140,27 +155,27 @@ module.exports = (models) => {
                     return foundFact;
                 });
         },
-        voteYes(factId){
+        voteYes(factId) {
             return this.getFactById(factId)
                 .then(foundFact => {
                     foundFact.knowledgeCount = {
-                        yes: foundFact.knowledgeCount.yes +1,
+                        yes: foundFact.knowledgeCount.yes + 1,
                         no: foundFact.knowledgeCount.no
                     };
                     foundFact.save();
                     return foundFact;
-                })
+                });
         },
-        voteNo(factId){
+        voteNo(factId) {
             return this.getFactById(factId)
                 .then(foundFact => {
                     foundFact.knowledgeCount = {
                         yes: foundFact.knowledgeCount.yes,
-                        no: foundFact.knowledgeCount.no +1
+                        no: foundFact.knowledgeCount.no + 1
                     };
                     foundFact.save();
                     return foundFact;
-                })
+                });
 
         }
     };

@@ -50,14 +50,13 @@ const userSchema = new mongoose.Schema({
         default: 'default-avatar.png'
     },
     roles: [String],
-    isDeleted: Boolean,
+    isBlocked: {
+        type: Boolean,
+        defaul: false
+    },
     favoriteFacts: [{}]
 });
 
-userSchema.virtual('fullname').get(function () {
-    let fullname = `${this.firstname} ${this.lastname}`;
-    return fullname;
-});
 
 userSchema.virtual('isAdmin').get(function () {
     return hasRole(this, 'admin');

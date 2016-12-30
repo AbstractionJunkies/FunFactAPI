@@ -9,7 +9,11 @@ module.exports = function ({  app, controllers }) {
     const adminController = controllers.admin;
 
     router
-        .get('/users/all', auth.isAuthenticated(), auth.isInRole('admin'), adminController.getAllusers);
+        .get('/users/all', auth.isAuthenticated(), auth.isInRole('admin'), adminController.getAllusers)
+        .put('/users/user/:id', auth.isAuthenticated(), auth.isInRole('admin'), adminController.toggleBlockUsers)
+        .get('/facts/deleted', auth.isAuthenticated(), auth.isInRole('admin'), adminController.getDeletedFacts)
+        .delete('/facts/fact/:id', auth.isAuthenticated(), auth.isInRole('admin'), adminController.deleteFact)
+        .put('/facts/fact/:id', auth.isAuthenticated(), auth.isInRole('admin'), adminController.restoreDeletedFact);
 
     app.use('/api/admin', router);
 };
