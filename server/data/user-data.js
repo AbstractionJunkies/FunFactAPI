@@ -16,13 +16,12 @@ module.exports = (models) => {
                 });
             });
         },
-        getByEmail(email) {
+        getUserByEmail(email) {
             return new Promise((resolve, reject) => {
                 User.findOne({ email }, (err, user) => {
                     if (err) {
                         return reject(err);
                     }
-
                     return resolve(user);
                 });
             });
@@ -73,19 +72,47 @@ module.exports = (models) => {
                     });
             });
         },
-        uploadAvatar(username, img) {
-            this.getByUsername(username)
-                .then(user => {
-                    user.avatar = img;
-                    user.save();
-                });
-        },
-        getAvatar(username){
+        uploadAvatar(username, img, password) {
             return new Promise((resolve, reject) => {
                 this.getByUsername(username)
-                    .then(result=>{
+                    .then(user => {
+                        let passHashFromReq = user.generatePassHash(password);
+                        if (passHashFromReq !== user.passHash) {
+                            return reject();
+                        }
+                        console.log('mina proverkata za parola');
+                        user.avatar = img;
+                        user.save();
+                        resolve(user);
+                    });
+            });
+        },
+        getAvatar(username) {
+            return new Promise((resolve, reject) => {
+                this.getByUsername(username)
+                    .then(result => {
                         resolve(result.avatar);
                     });
+            });
+        },
+        updateUserPrivateInfo(id, info) {
+
+            return new Promise((resolve, reject) => {
+                Promise.all([this.getUserById(id), this.getUserByEmail(info.email)])
+                    .then(([userFromId, userFromMail]) => {
+                        if (userFromMail) {
+                            reject(userFromId);
+                        }
+                        console.log('oldhash ' + userFromId.passHash);
+                        console.log('newhash ' + info.passHash);
+
+                        userFromId.passHash = info.passHash || userFromId.passHash;
+                        userFromId.email = info.email || userFromId.email;
+
+                        userFromId.save();
+                        resolve(userFromId);
+                    });
+
             });
         }
     };
