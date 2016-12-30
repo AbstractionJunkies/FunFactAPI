@@ -2,14 +2,18 @@ const passport = require('passport');
 
 module.exports = {
     isAuthenticated: (req, res, next) => {
-        if (req.isAuthenticated()) {
-            next();
-        } else {
-            res.status(401).json({
-                succes: false,
-                message: 'Please log in '
-            });
+        return passport.authenticate('jwt', { session: false });
+    },
+    isInRole: (role) =>
+        (req, res, next) => {
+            if (req.user && req.user.roles.indexOf(role) > -1) {
+                next();
+            } else {
+                res.status(401).json({
+                    succes: false,
+                    message: 'You do not have admin rights!'
+                });
+            }
         }
-    }
 
 };

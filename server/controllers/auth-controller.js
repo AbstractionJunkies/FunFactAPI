@@ -4,31 +4,6 @@ const jwt = require('jsonwebtoken');
 module.exports = function ({data, encryption, passport}) {
     return {
         login(req, res, next) {
-            // passport.authenticate('jwt', (err, user, info) => {
-            //     if (err) {
-            //         return next(err);
-            //     }
-            //     if (!user) {
-            //         return res.status(401).json({
-            //             success: false,
-            //             message: 'Invalid username or password'
-            //         });
-            //     }
-            //     req.logIn(user, function (err) {
-            //         if (err) {
-            //             return next(err);
-            //         }
-
-            //         let token = jwt.sign(user, 'magicstring', {
-            //             expiresIn: 7200 // 2 hours in seconds
-            //         });
-            //         return res.status(200).json({
-            //             success: true,
-            //             message: `User ${user.username} logged in succesfully`,
-            //             token: 'JWT ' + token
-            //         });
-            //     });
-            // })(req, res, next);
             let username = req.body.username;
             let password = req.body.password;
             data.getByUsername(username)
@@ -82,7 +57,7 @@ module.exports = function ({data, encryption, passport}) {
             const salt = encryption.generateSalt();
             const passHash = encryption.generateHashedPassword(salt, password);
 
-            Promise.all([data.getByUsername(username), data.getByEmail(email)])
+            Promise.all([data.getByUsername(username), data.getUserByEmail(email)])
                 .then(([existringUser, existingEmail]) => {
 
                     if (existringUser) {
@@ -116,16 +91,6 @@ module.exports = function ({data, encryption, passport}) {
             });
         },
         getLoggedUser(req, res) {
-            // const token = req.headers.authorization;
-            // if (token) {
-            //     let user = encryption.deciferToken(token);
-
-            //     if (user === null) {
-            //         return res.status(401).json({
-            //             success: false,
-            //             message: 'Please provide a valid token'
-            //         });
-            //     }
             if (!req.user) {
                 return res.status(401).json({
                     success: false,
@@ -136,17 +101,11 @@ module.exports = function ({data, encryption, passport}) {
             let user = {
                 username: req.user.username,
                 avatar: req.user.avatar,
-                _id: req.user._id
+                _id: req.user._id,
+                roles: req.user.roles
             };
 
             return res.status(200).json(user);
-            // }
-
-
-            // return res.status(401).json({
-            //     success: false,
-            //     message: 'Please provide token'
-            // });
 
         }
     };

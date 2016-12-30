@@ -2,9 +2,8 @@
 const multer = require('multer');
 const path = require('path');
 const router = require('express').Router();
-const auth = require('../config/auth');
 
-module.exports = function ({ app, controllers, passport }) {
+module.exports = function ({ app, controllers, passport, auth }) {
     const userController = controllers.user;
     let img = '';
 
@@ -23,12 +22,11 @@ module.exports = function ({ app, controllers, passport }) {
     });
 
     router
-        .put('/user/:id', passport.authenticate('jwt', { session: false }), userController.updatePrivateInfo)
-        .get('/user/:username/favorites', passport.authenticate('jwt', { session: false }), userController.getUserFavorites)
-        .post('/user/:username/favorites', passport.authenticate('jwt', { session: false }), userController.addFactToFavorites)
-        .get('/user/:username/avatar', passport.authenticate('jwt', { session: false }), userController.getAvatar)
+        .put('/user/:id', auth.isAuthenticated(), userController.updatePrivateInfo)
+        .get('/user/:username/favorites', auth.isAuthenticated(), userController.getUserFavorites)
+        .post('/user/:username/favorites', auth.isAuthenticated(), userController.addFactToFavorites)
+        .get('/user/:username/avatar', auth.isAuthenticated(), userController.getAvatar)
         .post('/user/avatar', uploadAvatar.any(), (req, res) => {
-
             userController.uploadAvatar(req, res, img);
         });
 

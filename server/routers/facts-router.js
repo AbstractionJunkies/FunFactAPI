@@ -2,9 +2,8 @@
 const multer = require('multer');
 const path = require('path');
 const router = require('express').Router();
-const auth = require('../config/auth');
 
-module.exports = function ({ app, controllers, passport }) {
+module.exports = function ({ app, controllers, passport, auth }) {
     const facts = controllers.facts;
     let img = '';
     const storageFact = multer.diskStorage({
@@ -28,10 +27,10 @@ module.exports = function ({ app, controllers, passport }) {
         .post('/upload', uploadFact.any(), (req, res) => {
             facts.uploadFact(req, res, img);
         })
-        .post('/fact/:id/comments', passport.authenticate('jwt', { session: false }), facts.addComment)
-        .get('/fact/:id/comments', passport.authenticate('jwt', { session: false }), facts.getFactComments)
-        .get('/fact/:id', passport.authenticate('jwt', { session: false }), facts.getFactById)
-        .put('/fact/:id', passport.authenticate('jwt', { session: false }), facts.rateFact)
+        .post('/fact/:id/comments', auth.isAuthenticated(), facts.addComment)
+        .get('/fact/:id/comments', facts.getFactComments)
+        .get('/fact/:id', facts.getFactById)
+        .put('/fact/:id', auth.isAuthenticated(), facts.rateFact)
         .put('/fact/vote/:id', facts.voteForKnowledge)//TODO:Change  rate to vote
         .get('/all', facts.getAllFacts);
 

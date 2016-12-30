@@ -9,6 +9,7 @@ const passport = require('passport');
 const database = require('./config/database')(config);
 const data = require('./data')();
 const cors = require('cors');
+const auth = require('./config/auth');
 app.use(cors());
 // const storage = multer.memoryStorage();
 // const auth = require('./server/config/auth');
@@ -18,7 +19,7 @@ const encryption = require('./utilities/encryption');
 
 require('./config/express')(config, app);
 const controllers = require('./controllers')({ app, encryption, data, passport });
-require('./routers')({ app, controllers, passport });
+require('./routers')({ app, controllers, passport, auth });
 
 
 
