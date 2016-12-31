@@ -1,5 +1,4 @@
 'use strict';
-const jwt = require('jsonwebtoken');
 
 module.exports = function ({data, encryption, passport}) {
     return {
@@ -14,7 +13,8 @@ module.exports = function ({data, encryption, passport}) {
                 });
         },
         deleteFact(req, res) {
-            let factId = req.body.factId;
+            let factId = req.params.id;
+
             data.deleteFactById(factId)
                 .then(result => {
                     res.status(201).json({
@@ -34,7 +34,7 @@ module.exports = function ({data, encryption, passport}) {
                 });
         },
         restoreDeletedFact(req, res) {
-            let factToRestoreId = req.body.factId;
+            let factToRestoreId = req.params.id;
 
             data.restoreDeletedFact(factToRestoreId)
                 .then(fact => {

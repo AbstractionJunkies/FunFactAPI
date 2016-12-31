@@ -1,6 +1,5 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const User = require('../../models/user-model');
 
 module.exports = (passport, data, config) => {
     let opts = {};
@@ -9,7 +8,6 @@ module.exports = (passport, data, config) => {
 
     passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
 
-        // If you tell me why this doesn't work..
         data.getUserById(jwt_payload._doc._id)
             .then(user => {
                 if (user) {
