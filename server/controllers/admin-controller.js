@@ -61,6 +61,24 @@ module.exports = function ({data, encryption, passport}) {
                         message: 'Admins can not block other admins'
                     });
                 });
+        },
+        makeUserAdmin(req, res) {
+            let userId = req.params.id;
+
+            data.makeUserAdmin(userId)
+                .then(result => {
+                    res.status(201).json({
+                        succes: true,
+                        message: 'Operation succesfull',
+                        data: result
+                    });
+                })
+                .catch(err => {
+                    res.status(401).json({
+                        succes: false,
+                        message: ''
+                    });
+                });
         }
     };
 };

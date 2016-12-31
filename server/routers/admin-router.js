@@ -11,6 +11,7 @@ module.exports = function ({  app, controllers }) {
     router
         .get('/users/all', auth.isAuthenticated(), auth.isInRole('admin'), adminController.getAllusers)
         .put('/users/user/:id', auth.isAuthenticated(), auth.isInRole('admin'), adminController.toggleBlockUsers)
+        .post('/users/makeadmin/:id', auth.isAuthenticated(), auth.isInRole('admin'), adminController.makeUserAdmin)
         .get('/facts/deleted', auth.isAuthenticated(), auth.isInRole('admin'), adminController.getDeletedFacts)
         .delete('/facts/fact/:id', auth.isAuthenticated(), auth.isInRole('admin'), adminController.deleteFact)
         .put('/facts/fact/:id', auth.isAuthenticated(), auth.isInRole('admin'), adminController.restoreDeletedFact);

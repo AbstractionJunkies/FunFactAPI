@@ -27,10 +27,10 @@ module.exports = function ({ app, controllers, passport, auth }) {
         .post('/upload', uploadFact.any(), (req, res) => {
             facts.uploadFact(req, res, img);
         })
-        .post('/fact/:id/comments', auth.isAuthenticated(), facts.addComment)
+        .post('/fact/:id/comments', auth.isAuthenticated(), auth.isBlocked(), facts.addComment)
         .get('/fact/:id/comments', facts.getFactComments)
         .get('/fact/:id', facts.getFactById)
-        .put('/fact/:id', auth.isAuthenticated(), facts.rateFact)
+        .put('/fact/:id', auth.isAuthenticated(), auth.isBlocked(), facts.rateFact)
         .put('/fact/vote/:id', facts.voteForKnowledge)//TODO:Change  rate to vote
         .get('/all', facts.getAllFacts);
 

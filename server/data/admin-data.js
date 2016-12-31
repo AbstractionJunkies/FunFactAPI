@@ -54,6 +54,19 @@ module.exports = (models) => {
                     return resolve(foundUser);
                 });
             });
+        },
+        makeUserAdmin(userId) {
+            return new Promise((resolve, reject) => {
+                User.findOne({ _id: userId }, (err, foundUser) => {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    foundUser.assignRole('admin');
+                    foundUser.save();
+                    return resolve(foundUser);
+                });
+            });
         }
     };
 };

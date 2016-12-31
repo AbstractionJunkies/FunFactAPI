@@ -6,6 +6,7 @@ module.exports = function ({data, encryption, passport}) {
         login(req, res, next) {
             let username = req.body.username;
             let password = req.body.password;
+           
             data.getByUsername(username)
                 .then(user => {
                     if (user === null || !user.authenticate(password)) {
@@ -22,7 +23,8 @@ module.exports = function ({data, encryption, passport}) {
                     res.status(200).json({
                         success: true,
                         message: `User ${user.username} logged in succesfully`,
-                        token: 'JWT ' + token
+                        token: 'JWT ' + token,
+                        isUserBlocked: user.isBlocked
                     });
                 });
 
@@ -102,7 +104,8 @@ module.exports = function ({data, encryption, passport}) {
                 username: req.user.username,
                 avatar: req.user.avatar,
                 _id: req.user._id,
-                roles: req.user.roles
+                roles: req.user.roles,
+                isBlocked: req.user.isBlocked
             };
 
             return res.status(200).json(user);
