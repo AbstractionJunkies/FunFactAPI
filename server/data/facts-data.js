@@ -91,7 +91,7 @@ module.exports = (models) => {
             let fact = new Fact({
                 title,
                 uploader,
-                img: 'http://localhost:1337/static/images/fact-images/' + img, // TODO change before deploy
+                img: 'https://fun-fact-api.herokuapp.com/' + img, // TODO change before deploy
                 category,
                 usersRated
             });
