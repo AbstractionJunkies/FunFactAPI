@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const path = require('path');
 const cors = require('cors');
 
 module.exports = (config, app) => {
@@ -33,6 +32,4 @@ module.exports = (config, app) => {
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
-
-    
 };
