@@ -7,7 +7,7 @@ const path = require('path');
 
 
 module.exports = (config, app) => {
-    // server cliend folder bower etc..
+    // server cliend folder bower etc...
     app.use('/static', express.static(config.rootPath + '/public'));
 
     app.use(cookieParser());
