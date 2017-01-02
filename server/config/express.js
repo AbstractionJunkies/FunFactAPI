@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
-
+const cors = require('cors');
 
 module.exports = (config, app) => {
     // server cliend folder bower etc...
@@ -26,6 +26,8 @@ module.exports = (config, app) => {
         res.setHeader('Access-Control-Allow-Credentials', true);
         next();
     });
+
+    app.options('*', cors());
     require('./passport')(app);
 
     app.use(bodyParser.json());
