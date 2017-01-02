@@ -34,5 +34,5 @@ module.exports = function ({ app, controllers, passport, auth }) {
         .put('/fact/vote/:id', facts.voteForKnowledge)//TODO:Change  rate to vote
         .get('/all', facts.getAllFacts);
 
-    app.use('/facts', router);
+    app.use('/api/facts', router);
 };
