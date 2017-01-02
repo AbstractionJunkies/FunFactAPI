@@ -9,8 +9,7 @@ module.exports = {
     deciferToken: (token) => {
 
         // need to remove 'JWT ' in order to decode it ... (i know it sucks!)
-        let decoded = jwt.decode(token.split(' ')[1], 'magicstring');
-        // console.log(decoded);
+        let decoded = jwt.decode(token.split(' ')[1], 'magicstring');      
 
         let user = null;
 

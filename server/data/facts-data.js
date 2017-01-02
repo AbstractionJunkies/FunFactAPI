@@ -1,15 +1,5 @@
 /* globals module, require */
 'use strict';
-function calculateRate(usersRated) {
-
-    let allrate = 0;
-    for (let u of usersRated) {
-        allrate += +u;
-    }
-
-    return allrate;
-}
-
 
 module.exports = (models) => {
     const {Fact} = models;
@@ -101,7 +91,7 @@ module.exports = (models) => {
             let fact = new Fact({
                 title,
                 uploader,
-                img: 'http://localhost:1337/static/images/fact-images/' + img,
+                img: 'http://localhost:1337/static/images/fact-images/' + img, // TODO change before deploy
                 category,
                 usersRated
             });

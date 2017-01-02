@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function ({data, encryption, passport}) {
+module.exports = function ({data}) {
     return {
         getAllusers(req, res) {
 

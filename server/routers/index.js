@@ -11,10 +11,4 @@ module.exports = function ({ app, controllers, passport, auth }) {
         .forEach(file => {
             require(path.join(__dirname, file))({ app, controllers, passport, auth });
         });
-
-    // app.get('*', (req, res) => {
-    //     // res.redirect('/home/error');
-    //     // TODO: set the redirect page
-    //     console.log('wrong page');
-    // });
 };

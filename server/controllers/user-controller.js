@@ -1,7 +1,6 @@
 'use strict';
-const jwt = require('jsonwebtoken');
 
-module.exports = function ({data, encryption, passport}) {
+module.exports = function ({data, encryption}) {
     return {
         _validateToken(req, res) {
             let token = req.headers.authorization;
@@ -84,8 +83,7 @@ module.exports = function ({data, encryption, passport}) {
 
             let username = req.body.username;
             let passwordFromReq = req.body.currentPassword;
-            console.log(passwordFromReq);
-            console.log(username);
+         
             if (!passwordFromReq) {
                 res.status(401).json({
                     succes: false,
@@ -98,7 +96,6 @@ module.exports = function ({data, encryption, passport}) {
                     res.status(200).send(img);
                 })
                 .catch((err) => {
-                    console.log(JSON.stringify(err));
                     res.status(401).json({
                         succes: false,
                         message: 'Password is not valid'

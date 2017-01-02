@@ -1,7 +1,7 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 
-module.exports = function ({data, encryption, passport}) {
+module.exports = function ({data, encryption}) {
     return {
         login(req, res, next) {
             let username = req.body.username;

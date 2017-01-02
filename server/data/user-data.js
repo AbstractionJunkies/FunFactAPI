@@ -90,7 +90,7 @@ module.exports = (models) => {
                         if (passHashFromReq !== user.passHash) {
                             return reject();
                         }
-                        console.log('mina proverkata za parola');
+                       
                         user.avatar = img;
                         user.save();
                         resolve(user);
@@ -112,9 +112,7 @@ module.exports = (models) => {
                     .then(([userFromId, userFromMail]) => {
                         if (userFromMail) {
                             reject(userFromId);
-                        }
-                        console.log('oldhash ' + userFromId.passHash);
-                        console.log('newhash ' + info.passHash);
+                        }                     
 
                         userFromId.passHash = info.passHash || userFromId.passHash;
                         userFromId.email = info.email || userFromId.email;

@@ -14,6 +14,6 @@ module.exports = {
         rootPath: rootPath,
         connectionString: process.env.CONNECTION_STRING,
         port: PORT,
-        secret: 'magicstring'
+        secret: process.env.JWT_SECRET
     }
 };
