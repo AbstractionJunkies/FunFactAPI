@@ -24,12 +24,8 @@ module.exports = (config, app) => {
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
         res.setHeader('Access-Control-Allow-Credentials', true);
-        if ('OPTIONS' == req.method) {
-            res.send(200);
-        }
-        else {
-            next();
-        }
+        
+        next();
     });
 
     app.options('*', cors());
@@ -38,5 +34,5 @@ module.exports = (config, app) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-
+    
 };
